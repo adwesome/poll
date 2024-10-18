@@ -292,4 +292,5 @@ window.onload = async function() {
   fill_categories();
   draw_orgs();
   collect_data_from_form();
+  document.getElementById('number').innerHTML = uid;
 }
