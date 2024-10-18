@@ -224,7 +224,7 @@ async function save_items_into_remote_storage(data) {
     body: JSON.stringify(data)
   });
   //return await response.json();
-  console.log(data);
+  //console.log(data);
 }
 
 async function get_orgs() {
