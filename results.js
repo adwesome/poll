@@ -3,7 +3,7 @@
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
 var uid, orgs, votes;
-const sexes = {1: 'Женский', 2: 'Мужской'};
+const sexes = {'f': 1, 'm': 2};
 const ages = {
   1: 'до 14 лет включительно',
   2: '15-19 лет',
@@ -36,10 +36,20 @@ async function get_smth(smth) {
 }
 
 function calc_sexes() {
+  let r = {'f': 0, 'm': 0};
   votes.forEach((vote) => {
-    if (vote[ids.votes] != '')
-      ;//console.log(vote);
+    if (vote[ids.votes] != '') {
+      if (vote[ids.sex] == sexes.f)
+        r.f += 1;
+      else
+        r.m += 1;
+    }
   });
+  r['fp'] = parseInt((r.f * 100 / (r.f + r.m)));
+  r['mp'] = parseInt((r.m * 100 / (r.f + r.m)));
+  let result = `Женщин: ${r.f} (${r.fp}%). Мужчин: ${r.m} (${r.mp}%).`;
+
+  document.getElementById('sexes').innerHTML = result;
 }
 
 function calc_participants() {
