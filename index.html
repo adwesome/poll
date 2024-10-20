@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Анкета. Сегежа</title>
+    <title>Результаты розыгрыша призов среди заполнявших анкету. Сегежа</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4DSL3R9T5W"></script>
@@ -32,30 +32,13 @@
         font-style: normal;
         padding-: 0.5em;
       }
-      .address {
-        color: darkgray;
-        font-size: 0.9em;
-      }
+      
       .container {
         margin-top: 0.7em;
         margin-bottom-: 2em;
         padding: 1em;
       }
-      .section {
-        margin-bottom: 2.5em;
-      }
-      ul {
-        list-style-type: none;
-        padding: 0 0.5em;
-      }
-      li {
-        margin-bottom: 0.5em;
-      }
-
-      .form-select {
-        margin-bottom: 0.8em;
-      }
-
+      
       h2 {
         font-weight: 600;
       }
@@ -71,10 +54,62 @@
       .bottom {
         mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
       }
+
+      #comment, #comment_helper {
+        display: none;
+      }
     </style>
 
-    <script type="text/javascript" src="poll.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+      window.onload = async function() {
+        const uid = localStorage.getItem('uid');
+        if (!uid) {
+          document.getElementById('result').innerHTML = '<p>Вы не участвовали в анкетировании вовсе, либо не участвовали с этого устройства / браузера.</p><p>Если вы участвовали и видите это сообщение, то это значит, что вы участвовали с другого компьютера (ноутбука, планшета, смартфона), либо с другого браузера на данном устройстве. В этом случае откройте ссылку <a href="https://adwesome.github.io/poll">https://adwesome.github.io/poll</a> с другого устройства / браузера.</p>';
+          return;
+        }
+
+        var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
+        if (location.hostname)
+          SERVER_HOSTNAME = 'https://scratchit.cards';
+
+        document.getElementById('comment').addEventListener('keyup', async function(e) {
+          const comment = document.getElementById('comment').value;
+          const response = await fetch(SERVER_HOSTNAME + '/comments', {
+            mode: 'no-cors',
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'uid': uid, 'comment': comment})
+          });
+        });
+        
+        let message = `<p>Номер вашей анкеты: ${uid}.</p>`;
+        try {
+          const response = await fetch(SERVER_HOSTNAME + `/results/${uid}`, {});
+          const res = await response.json();
+
+          if (!res)
+            message += '<p>😱 Что-то пошло не так!</p><p>Пожалуйста, попробуйте зайти позже. Мы уже наверняка знаем о проблеме и исправляем ее. Проблема на нашей стороне (json).</p>';
+          else if (![200, 201, 202].includes(res.code))
+            message += `<p>😱 Что-то пошло не так!</p><p>Пожалуйста, попробуйте зайти позже. Мы уже наверняка знаем о проблеме и исправляем ее. Проблема на нашей стороне (code: ${res.code}).</p>`;
+          else {
+            message += res.result;
+          }
+
+          document.getElementById('result').innerHTML = message;
+          if (res.code == 202) {
+            document.getElementById('comment').style.display = 'unset';
+            document.getElementById('comment_helper').style.display = 'unset';
+          }
+        } catch {
+          message += '<p>😱 Что-то пошло не так!</p><p>Пожалуйста, попробуйте зайти позже. Мы уже наверняка знаем о проблеме и исправляем ее. Проблема на нашей стороне (fetch).</p>';
+          document.getElementById('result').innerHTML = message;
+          return;
+        }
+      };
+    </script>
   </head>
   <body>
     <img class="top" src="https://images.unsplash.com/photo-1634038036367-7c0e7a95fa4c?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
@@ -82,69 +117,11 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 offset-lg-3">
-          <h3>Анкетирование завершено</h3>
-          <p><br>Мы подводим результаты, и объявим о них днем 21 октября 2024 в группе <a href="https://vk.com/segezhadays">"Сегежские будни"</a> во Вконтакте.</p>
-          <p>Номер вашей анкеты: <span id="number">вы не участвовали в анкетировании либо совсем, либо с этого браузера.</span></p>
-          <!--ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Анкета</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">О проекте</button>
-            </li>
-          </ul-->
-          <!--div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-              <div class="section">
-                <h2>О вас</h2>
-                <p><b>Анкета полностью анонимная.</b> Пожалуйста, укажите честно ваши пол и возраст. Это поможет нам лучше понимать, каким группам интересны какие подарки.</p>
-                <label>Город:</label>
-                <select id="city" class="form-select" disabled>
-                  <option value="1" selected>Сегежа</option>
-                </select>
-                <p>
-                  <b>Если вы не живете в Сегеже</b>, не участвуйте &mdash; мы все равно вас уберем и из результатов и из розыгрыша призов.
-                </p>
-                <label>Пол:</label>
-                <select id="sex" class="form-select">
-                  <option value="1" selected>Женский</option>
-                  <option value="2">Мужской</option>
-                </select>
-                <label>Возраст:</label>
-                <select id="age" class="form-select">
-                  <option value="1">до 14 лет включительно</option>
-                  <option value="2">15-19 лет</option>
-                  <option value="3">20-24 лет</option>
-                  <option value="4">25-29 лет</option>
-                  <option value="5" selected>30-34 лет</option>
-                  <option value="6">35-39 лет</option>
-                  <option value="7">40-44 лет</option>
-                  <option value="8">45-49 лет</option>
-                  <option value="9">50-54 лет</option>
-                  <option value="10">55-59 лет</option>
-                  <option value="11">60-64 лет</option>
-                  <option value="12">65-69 лет</option>
-                  <option value="13">от 70 лет включительно</option>
-                </select>
-                <label>Комментарий:</label>
-                <textarea id="comment" class="form-control" placeholder="На случай, если вы захотите сообщить нам что-то дополнительно"></textarea>
-              </div>
-              <h2>Организации</h2>
-              <p>Выберите организации, которые вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы поучаствовать.</p>
-              <div id="list" class="section"><b>Пожалуйста, подождите, список организаций загружается...</b></div>
-              <div class="section">
-                <h2>Это все!</h2>
-                <p>Спасибо за участие! Мы сохранили ваш выбор. Сохранять дополнительно ничего не требуется &mdash; можете смело закрыть эту страницу!</p>
-                <p>Вы также можете поддержать проект, скопировав и переслав ссылку на эту анкету своим родным, друзьям и/или коллегам, находящимся в Сегеже &mdash; чтобы они тоже смогли поучаствовать, если им это интересно.</p>
-                <p>Позднее мы сообщим в группе <a href="https://vk.com/segezhadays">"Сегежские будни"</a> о результатах опроса, а также о том, состоится розыгрыш призов от организаций или нет. В объявленном розыгрыше призов от нас вы уже участвуете в любом случае! Удачи!</p>
-
-                <p>Номер вашей анкеты: <span id="number"></span></p>
-              </div>
-            </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-              ...
-            </div>
-          </div-->
+          <h2>Результаты розыгрыша</h2>
+          <div id="result"><p>Пожалуйста, подождите, мы запрашиваем ваш результат...</p></div>
+          <textarea id="comment" class="form-control" placeholder=""></textarea><br><br>
+          <p id="comment_helper">В случае каких-либо сложностей, пожалуйста, обращайтесь к администратору группы <a href="https://vk.com/segezhadays">"Сегежские будни"</a> во Вконтакте.</p>
+          <br><br><br>
         </div>
       </div>
     </div>
