@@ -127,7 +127,7 @@ function calc_orgs_stats(category) {
       if (orgs_stats[oid][category] == value) {
         const o = orgs_stats[oid];
         o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
-        o['oid'] = parseInt(oid);
+        //o['oid'] = parseInt(oid);
         o['name'] = orgs_dict[oid].name;
         r.push(o);
       }
@@ -194,7 +194,7 @@ function calc_orgs_normalized_stats() {
       if (orgs_stats_normalized[oid].total == value) {
         const o = orgs_stats_normalized[oid];
         o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
-        o['oid'] = parseInt(oid);
+        //o['oid'] = parseInt(oid);
         o['name'] = orgs_dict[oid].name;
         r.push(o);
       }
@@ -235,6 +235,6 @@ window.onload = async function() {
   calc_voters();
   calc_sexes();
   calc_ages();
-  //calc_orgs_stats('total');
-  calc_orgs_normalized_stats();
+  calc_orgs_stats('total');
+  //calc_orgs_normalized_stats();
 }

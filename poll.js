@@ -279,18 +279,19 @@ function fill_categories() {
 function get_uid() {
   var uid = localStorage.getItem('uid');
   if (uid)
-    return parseInt(uid);
+    return uid;
 
-  uid = Date.now();
-  localStorage.setItem('uid', uid);
-  return uid;
+  //uid = Date.now();
+  //localStorage.setItem('uid', uid);
+  //return uid;
 }
 
 window.onload = async function() {
   uid = get_uid();
-  orgs = (await get_orgs()).orgs;
-  fill_categories();
-  draw_orgs();
-  collect_data_from_form();
-  document.getElementById('number').innerHTML = uid;
+  if (uid)
+    document.getElementById('number').innerHTML = uid + ' (он вам не понадобится, это просто подтверждение вашего участия в анкетировании с данного браузера).';
+  //orgs = (await get_orgs()).orgs;
+  //fill_categories();
+  //draw_orgs();
+  //collect_data_from_form();
 }
