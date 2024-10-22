@@ -129,22 +129,28 @@ function calc_orgs_stats(category) {
         o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
         //o['oid'] = parseInt(oid);
         o['name'] = orgs_dict[oid].name;
+        o['type'] = orgs_dict[oid].type;
+        o['address'] = orgs_dict[oid].address;
         r.push(o);
       }
     }
   });
 
-  console.log(r);
-
-  /*
   let result = '';
-  for (key in orgs_stats) {
-    let total = orgs_stats[key].total;
-    let total_p = parseInt(total * 100 / participants);
-    result += `${orgs[key]}: ${total} (${total_p}%) (из которых Женщин: ${orgs_stats[key].f}, Мужчин: ${orgs_stats[key].m})<br>`;
+  for (i in r) {
+    const org = r[i];
+    result += `<tr>`;
+    result += `<td>${org.name}</td>`;
+    result += `<td>${org.type}</td>`;
+    result += `<td>-</td>`;
+    result += `<td>${org.address}</td>`;
+    result += `<td>${org.total}</td>`;
+    result += `<td>${org.tp}</td>`;
+    result += `<td>${org.f}</td>`;
+    result += `<td>${org.m}</td>`;
+    result += `</tr>`;
   }
-  document.getElementById('orgs').innerHTML = result;
-  */
+  document.getElementById('results-fact-tbody').innerHTML = result;
 }
 
 function calc_orgs_normalized_stats() {
@@ -196,6 +202,8 @@ function calc_orgs_normalized_stats() {
         o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
         //o['oid'] = parseInt(oid);
         o['name'] = orgs_dict[oid].name;
+        o['type'] = orgs_dict[oid].type;
+        o['address'] = orgs_dict[oid].address;
         r.push(o);
       }
     }
@@ -216,7 +224,7 @@ function calc_orgs_normalized_stats() {
 
 function orgs_to_dict() {
   orgs.forEach((org) => {
-    const o = {'name': org[1]};
+    const o = {'name': org[1], 'type': org[2], 'address': org[3]};
     orgs_dict[org[0]] = o;
   });
 }
