@@ -270,14 +270,19 @@ function calc_orgs_stats(category) {
   });
 
   let result = '';
+  let categories = [];
   for (oid in orgs_stats) {
     const org = orgs_stats[oid];
     org['tp'] = Math.round((100 * org.total / participants) * 10) / 10;
     
+    const category = get_category_by_type(orgs_dict[oid].type);
+    if (!categories.includes(category))
+      categories.push(category);
+
     result += `<tr>`;
     result += `<td>${orgs_dict[oid].name}</td>`;
     result += `<td>${orgs_dict[oid].type}</td>`;
-    result += `<td>${get_category_by_type(orgs_dict[oid].type)}</td>`;
+    result += `<td>${category}</td>`;
     result += `<td>${orgs_dict[oid].address}</td>`;
     result += `<td>${org.total}</td>`;
     result += `<td>${org.tp}</td>`;
@@ -287,6 +292,12 @@ function calc_orgs_stats(category) {
   }
 
   document.getElementById('results-fact-tbody').innerHTML = result;
+
+  result = `<option>Все</option>`;
+  categories.forEach((category) => {
+    result += `<option>${category}</option>`;
+  });
+  document.getElementById('category').innerHTML = result;
 
   const table = new DataTable('#results-fact', {
     language: {
