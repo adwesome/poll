@@ -289,7 +289,12 @@ function calc_orgs_stats(category) {
   document.getElementById('results-fact-tbody').innerHTML = result;
 
   const table = new DataTable('#results-fact', {
-    language: { search: "", searchPlaceholder: "Поиск..." },
+    language: {
+      search: "",
+      searchPlaceholder: "Поиск по всей таблице...",
+      emptyTable: "Ничего не найдено",
+      "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+    },
     paging: false,
     autoWidth: false,
     order: [[4, 'desc']],
