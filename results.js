@@ -287,6 +287,36 @@ function calc_orgs_stats(category) {
   }
 
   document.getElementById('results-fact-tbody').innerHTML = result;
+
+  const table = new DataTable('#results-fact', {
+    language: { search: "", searchPlaceholder: "Поиск..." },
+    paging: false,
+    autoWidth: false,
+    order: [[4, 'desc']],
+    responsive: true,
+    columns: [
+      { width: 'auto', className: 'all' }, // https://datatables.net/extensions/responsive/examples/column-control/classes.html
+      { width: 'auto'},
+      { width: 'auto'},
+      { width: '200px'},
+      { width: 'auto'},
+      { width: 'auto'},
+      { width: 'auto'},
+      { width: 'auto'},
+    ],
+    /*
+    columnDefs: [
+      { type: 'html-num-fmt', targets: 4 }, { type: 'num', targets: 5 },
+      { targets: [5], orderData: [5, 4] },
+      { targets: [4], orderData: [4, 5] },
+      { targets: [2], orderData: [2, 4, 5] },
+      { targets: [3], orderData: [3, 5, 4] },
+      { responsivePriority: 1, targets: 0 },
+      { responsivePriority: 1, targets: 4 },
+    ],
+    */
+    //stateSave: true,
+  });
 }
 
 function calc_orgs_normalized_stats() {
