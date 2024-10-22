@@ -113,43 +113,23 @@ function calc_orgs_stats(category) {
     });
   });
 
-  let totals = [];
-  for (oid in orgs_stats) {
-    const o = orgs_stats[oid];
-    totals.push(o[category]);
-  }
-
-  const totals_sorted = totals.sort(function(a, b){return b-a});
-  const totals_sorted_unique = [...new Set(totals_sorted)];
-  let r = [];
-  totals_sorted_unique.forEach((value) => {
-    for (oid in orgs_stats) {
-      if (orgs_stats[oid][category] == value) {
-        const o = orgs_stats[oid];
-        o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
-        //o['oid'] = parseInt(oid);
-        o['name'] = orgs_dict[oid].name;
-        o['type'] = orgs_dict[oid].type;
-        o['address'] = orgs_dict[oid].address;
-        r.push(o);
-      }
-    }
-  });
-
   let result = '';
-  for (i in r) {
-    const org = r[i];
+  for (oid in orgs_stats) {
+    const org = orgs_stats[oid];
+    org['tp'] = Math.round((100 * org.total / participants) * 10) / 10;
+    
     result += `<tr>`;
-    result += `<td>${org.name}</td>`;
-    result += `<td>${org.type}</td>`;
+    result += `<td>${orgs_dict[oid].name}</td>`;
+    result += `<td>${orgs_dict[oid].type}</td>`;
     result += `<td>-</td>`;
-    result += `<td>${org.address}</td>`;
+    result += `<td>${orgs_dict[oid].address}</td>`;
     result += `<td>${org.total}</td>`;
     result += `<td>${org.tp}</td>`;
     result += `<td>${org.f}</td>`;
     result += `<td>${org.m}</td>`;
     result += `</tr>`;
   }
+
   document.getElementById('results-fact-tbody').innerHTML = result;
 }
 
@@ -240,9 +220,9 @@ window.onload = async function() {
   calc_votes_clean();
   participants = votes_clean.length;
 
-  calc_voters();
-  calc_sexes();
-  calc_ages();
+  //calc_voters();
+  //calc_sexes();
+  //calc_ages();
   calc_orgs_stats('total');
   //calc_orgs_normalized_stats();
 }
