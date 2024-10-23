@@ -2,7 +2,7 @@
 //if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
-var uid, orgs, votes, visitors, participants, votes_clean = [], ages_stats = {}, orgs_dict = {};
+var uid, /*orgs, votes,*/ visitors, participants, votes_clean = [], ages_stats = {}, orgs_dict = {};
 var males, females, males_p, females_p;
 const sexes = {'f': 1, 'm': 2};
 const ages = {
@@ -432,10 +432,10 @@ function enable_listeners() {
 
 window.onload = async function() {
   uid = get_uid();
-  orgs = (await get_smth('orgs')).orgs;
+  //orgs = (await get_smth('orgs')).orgs;
   orgs_to_dict();
 
-  votes = (await get_smth('votes')).votes.slice(0, 900);
+  //votes = (await get_smth('votes')).votes.slice(0, 900);
   visitors = votes.length;
 
   calc_votes_clean();
