@@ -288,6 +288,7 @@ function calc_orgs_stats(category) {
       categories.push(category);
 
     result += `<tr>`;
+    result += `<td>${oid}</td>`;
     result += `<td>${orgs_dict[oid].name}</td>`;
     result += `<td>${orgs_dict[oid].type}</td>`;
     result += `<td>${category}</td>`;
@@ -315,19 +316,27 @@ function calc_orgs_stats(category) {
       "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
     },
     paging: false,
-    autoWidth: false,
-    order: [[4, 'desc']],
+    autoWidth: true,
+    order: [[5, 'desc']],
     responsive: true,
     columns: [
+      { width: 'auto'},
       { width: 'auto', className: 'all' }, // https://datatables.net/extensions/responsive/examples/column-control/classes.html
       { width: 'auto'},
       { width: 'auto'},
-      { width: '200px'},
+      { width: '200px'}, // address
       { width: 'auto'},
       { width: 'auto'},
       { width: 'auto'},
       { width: 'auto'},
     ],
+    columnDefs: [
+      {
+        target: 0, // ID
+        visible: false,
+        searchable: false
+      },
+    ]
     /*
     columnDefs: [
       { type: 'html-num-fmt', targets: 4 }, { type: 'num', targets: 5 },
@@ -424,9 +433,9 @@ function enable_listeners() {
   category.addEventListener('change', function(e) {
     let table = new DataTable('#results-fact');
     if (e.target.value == 'Все')
-      table.column(2).search('').draw(); // reset
+      table.column(3).search('').draw(); // reset
     else
-      table.column(2).search(e.target.value).draw();
+      table.column(3).search(e.target.value).draw();
   });
 }
 
