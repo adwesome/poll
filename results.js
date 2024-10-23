@@ -228,13 +228,21 @@ function calc_ages() {
       ages_stats[vote[ids.age]]['m'] += 1;
   });
 
-  let result = '';
+  let ms_p = [];
+  let fs_p = [];
   for (key in ages_stats) {
-    let total = ages_stats[key].total;
-    let total_p = parseInt(total * 100 / participants);
-    result += `${ages[key]}: ${total} (${total_p}%) (из которых Женщин: ${ages_stats[key].f}, Мужчин: ${ages_stats[key].m})<br>`;
+    //let total = ages_stats[key].total;
+    //let total_p = parseInt(total * 100 / participants);
+    let f = ages_stats[key].f;
+    let m = ages_stats[key].m;
+    let f_p = Math.round((f * 100 / participants) * 10) / 10;
+    let m_p = Math.round((m * 100 / participants) * 10) / 10;
+    //result += `${ages[key]}: ${total} (${total_p}%) (из которых Женщин: ${f} (${f_p}), Мужчин: ${m} (${m_p}))<br>`;
+    fs_p.push(f_p);
+    ms_p.push(m_p);
   }
-  document.getElementById('ages').innerHTML = result;
+  
+  return {'females': fs_p, 'males': ms_p};
 }
 
 function get_category_by_type(type) {
@@ -411,6 +419,14 @@ function orgs_to_dict() {
   });
 }
 
+function enable_listeners() {
+  const category = document.getElementById('category');
+  category.addEventListener('change', function(e) {
+    let table = new DataTable('#results-fact');
+    table.column(2).search(e.target.value).draw();
+  });
+}
+
 window.onload = async function() {
   uid = get_uid();
   orgs = (await get_smth('orgs')).orgs;
@@ -422,9 +438,13 @@ window.onload = async function() {
   calc_votes_clean();
   participants = votes_clean.length;
 
+  enable_listeners();
   //calc_voters();
   //calc_sexes();
   //calc_ages();
+
   calc_orgs_stats('total');
   //calc_orgs_normalized_stats();
+
+  //draw_chart();
 }
