@@ -325,10 +325,10 @@ function calc_orgs_stats(category) {
       { width: 'auto'},
       { width: 'auto'},
       { width: '200px'}, // address
-      { width: 'auto'},
-      { width: 'auto'},
-      { width: 'auto'},
-      { width: 'auto'},
+      { width: '100px'},
+      { width: '100px'},
+      { width: '100px'},
+      { width: '100px'},
     ],
     columnDefs: [
       {
