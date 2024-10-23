@@ -423,7 +423,10 @@ function enable_listeners() {
   const category = document.getElementById('category');
   category.addEventListener('change', function(e) {
     let table = new DataTable('#results-fact');
-    table.column(2).search(e.target.value).draw();
+    if (e.target.value == 'Все')
+      table.column(2).search('').draw(); // reset
+    else
+      table.column(2).search(e.target.value).draw();
   });
 }
 
