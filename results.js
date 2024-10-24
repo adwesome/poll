@@ -20,7 +20,9 @@ const ages = {
   12: '65-69 лет',
   13: 'от 70 лет',
 };
-const ids = {'sex': 4, 'age': 5, 'orgs': 7};
+const ids = {'sex': 5, 'age': 6, 'orgs': 8};
+
+const bad_voters = [247, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 115, 139, 109, 105, 264, 184, 61, 257, 110, 128, 196, 72, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 43, 18, 245, 106, 78, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288];
 
 const categories_map = {
   'Кафе, рестораны, бары': [
@@ -210,7 +212,7 @@ function calc_voters() {
 
 function calc_votes_clean() {
   votes.forEach((vote) => {
-    if (vote[ids.orgs] != '')
+    if (vote[ids.orgs] != '') //&& !bad_voters.includes(vote[0]))
       votes_clean.push(vote);
   });
 }
@@ -311,7 +313,7 @@ function calc_orgs_stats(category) {
   const table = new DataTable('#results-fact', {
     language: {
       search: "",
-      searchPlaceholder: "Поиск по всей таблице...",
+      searchPlaceholder: "Поиск по таблице...",
       emptyTable: "Ничего не найдено",
       "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
     },
@@ -458,5 +460,5 @@ window.onload = async function() {
   calc_orgs_stats('total');
   //calc_orgs_normalized_stats();
 
-  //draw_chart();
+  draw_chart();
 }

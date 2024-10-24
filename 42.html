@@ -24,8 +24,8 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
-    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.css" rel="stylesheet">
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/datatables.min.js"></script>
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.js"></script>
 
     <!--link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.1.6/r-3.0.3/datatables.min.css" rel="stylesheet"> 
     <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.1.6/r-3.0.3/datatables.min.js"></script-->
@@ -137,11 +137,40 @@
       </div>
       <div class="row" id="table">
 
-        <div class="col-4">
+        <div class="col-lg-3">
+          <label>Данные:</label>
+          <select class="form-select" id="data">
+            <option>Фактические</option>
+            <option>Нормализованные для полов</option>
+            <option>Аппроксимация на весь город</option>
+          </select>
+        </div>
+
+        <div class="col-lg-3">
+          <label>Чистота данных:</label>
+          <select class="form-select" id="data">
+            <option>Все голоса</option>
+            <option>Без сомнительных голосов</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <label>Пол:</label>
+          <select class="form-select" id="data">
+            <option>Все</option>
+            <option>Женщины</option>
+            <option>Мужчины</option>
+          </select>
+        </div>
+
+        <div class="col-lg-4">
           <label>Категория:</label>
           <select class="form-select" id="category"></select>
         </div>
         
+        <div class="col-lg-6 col-md-12 col-sm-12">
+          <canvas id="chart"></canvas>
+        </div>
+
         <table id="results-fact" class="display table table-sm table-striped">
           <thead>
             <tr>
