@@ -4,6 +4,9 @@
 
 var uid, /*orgs, votes,*/ visitors, participants, votes_clean = [], ages_stats = {}, orgs_dict = {};
 var males, females, males_p, females_p;
+const setup = {};
+var orgs_stats = {};
+
 const sexes = {'f': 1, 'm': 2};
 const ages = {
   1: 'до 14 лет',
@@ -197,9 +200,8 @@ function calc_sexes() {
   males = r.m;
   females_p = parseInt((females * 100 / participants));
   males_p = parseInt((males * 100 / participants));
-  let result = `Женщин: ${females} (${females_p}%). Мужчин: ${males} (${males_p}%).`;
-
-  document.getElementById('sexes').innerHTML = result;
+  //let result = `Женщин: ${females} (${females_p}%). Мужчин: ${males} (${males_p}%).`;
+  //document.getElementById('sexes').innerHTML = result;
 }
 
 function calc_voters() {
@@ -259,7 +261,7 @@ function get_category_by_type(type) {
 
 
 function calc_orgs_stats(category) {
-  let orgs_stats = {};
+  //let orgs_stats = {};
 
   orgs.forEach((org) => {
     const oid = org[0];
@@ -278,16 +280,13 @@ function calc_orgs_stats(category) {
       }
     });
   });
+}
 
+function fill_table() {
   let result = '';
-  let categories = [];
   for (oid in orgs_stats) {
     const org = orgs_stats[oid];
     org['tp'] = Math.round((100 * org.total / participants) * 10) / 10;
-    
-    const category = get_category_by_type(orgs_dict[oid].type);
-    if (!categories.includes(category))
-      categories.push(category);
 
     result += `<tr>`;
     result += `<td>${oid}</td>`;
@@ -298,61 +297,31 @@ function calc_orgs_stats(category) {
     result += `<td>${org.total}</td>`;
     result += `<td>${org.tp}</td>`;
     result += `<td>${org.f}</td>`;
+    result += `<td>${Math.round((org.f * 100 / females) * 10) / 10}</td>`;
     result += `<td>${org.m}</td>`;
+    result += `<td>${Math.round((org.m * 100 / males) * 10) / 10}</td>`;
     result += `</tr>`;
   }
 
-  document.getElementById('results-fact-tbody').innerHTML = result;
+  document.getElementById('results-tbody').innerHTML = result;
+  apply_datatable('results');
+}
 
-  result = `<option>Все</option>`;
+function fill_categories() {
+  let categories = [];
+  for (oid in orgs_stats) {
+    const category = get_category_by_type(orgs_dict[oid].type);
+    if (!categories.includes(category))
+      categories.push(category);
+  }
+
+  result = `<option value="all">Все</option>`;
   categories.forEach((category) => {
     result += `<option>${category}</option>`;
   });
   document.getElementById('category').innerHTML = result;
-
-  const table = new DataTable('#results-fact', {
-    language: {
-      search: "",
-      searchPlaceholder: "Поиск по таблице...",
-      emptyTable: "Ничего не найдено",
-      "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
-    },
-    paging: false,
-    autoWidth: true,
-    order: [[5, 'desc']],
-    responsive: true,
-    columns: [
-      { width: 'auto'},
-      { width: 'auto', className: 'all' }, // https://datatables.net/extensions/responsive/examples/column-control/classes.html
-      { width: 'auto'},
-      { width: 'auto'},
-      { width: '200px'}, // address
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
-    ],
-    columnDefs: [
-      {
-        target: 0, // ID
-        visible: false,
-        searchable: false
-      },
-    ]
-    /*
-    columnDefs: [
-      { type: 'html-num-fmt', targets: 4 }, { type: 'num', targets: 5 },
-      { targets: [5], orderData: [5, 4] },
-      { targets: [4], orderData: [4, 5] },
-      { targets: [2], orderData: [2, 4, 5] },
-      { targets: [3], orderData: [3, 5, 4] },
-      { responsivePriority: 1, targets: 0 },
-      { responsivePriority: 1, targets: 4 },
-    ],
-    */
-    //stateSave: true,
-  });
 }
+
 
 function calc_orgs_normalized_stats() {
   let orgs_stats = {};
@@ -433,11 +402,18 @@ function orgs_to_dict() {
 function enable_listeners() {
   const category = document.getElementById('category');
   category.addEventListener('change', function(e) {
-    let table = new DataTable('#results-fact');
+    let table = new DataTable('#results');
     if (e.target.value == 'Все')
       table.column(3).search('').draw(); // reset
     else
       table.column(3).search(e.target.value).draw();
+  });
+}
+
+function collect_setup() {
+  const selectors = document.querySelectorAll('select');
+  selectors.forEach((el) => {
+    console.log(el.id, el.value);
   });
 }
 
@@ -454,10 +430,13 @@ window.onload = async function() {
 
   enable_listeners();
   //calc_voters();
-  //calc_sexes();
+  calc_sexes();
   //calc_ages();
 
   calc_orgs_stats('total');
+  fill_table();
+  fill_categories();
+  collect_setup();
   //calc_orgs_normalized_stats();
 
   draw_chart();

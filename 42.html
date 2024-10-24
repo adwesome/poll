@@ -96,8 +96,10 @@
     <script type="text/javascript" src="data/orgs.js"></script>
     <script type="text/javascript" src="data/votes.js"></script>
 
-    <script type="text/javascript" src="results.js"></script>
     <script type="text/javascript" src="src/charts.js"></script>
+    <script type="text/javascript" src="src/datatable.js"></script>
+
+    <script type="text/javascript" src="results.js"></script>
     <script type="text/javascript"></script>
   </head>
   <body>
@@ -137,32 +139,32 @@
       </div>
       <div class="row" id="table">
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <label>Данные:</label>
-          <select class="form-select" id="data">
-            <option>Фактические</option>
-            <option>Нормализованные для полов</option>
-            <option>Аппроксимация на весь город</option>
+          <select class="form-select" id="data-source">
+            <option value="fact">Фактически полученные</option>
+            <option value="norm">Нормализованные для полов</option>
+            <option value="approx">Нормализованные для полов на весь город</option>
           </select>
         </div>
 
         <div class="col-lg-3">
           <label>Чистота данных:</label>
-          <select class="form-select" id="data">
-            <option>Все голоса</option>
-            <option>Без сомнительных голосов</option>
+          <select class="form-select" id="clarity">
+            <option value="all">Все голоса</option>
+            <option value="clean">Все голоса, кроме сомнительных</option>
           </select>
         </div>
         <div class="col-lg-2">
           <label>Пол:</label>
-          <select class="form-select" id="data">
-            <option>Все</option>
-            <option>Женщины</option>
-            <option>Мужчины</option>
+          <select class="form-select" id="sex">
+            <option value="all">Все</option>
+            <option value="f">Женщины</option>
+            <option value="m">Мужчины</option>
           </select>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <label>Категория:</label>
           <select class="form-select" id="category"></select>
         </div>
@@ -171,7 +173,7 @@
           <canvas id="chart"></canvas>
         </div>
 
-        <table id="results-fact" class="display table table-sm table-striped">
+        <table id="results" class="display table table-sm table-striped">
           <thead>
             <tr>
               <th>ID</th>
@@ -182,10 +184,12 @@
               <th>Всего голосов, шт</th>
               <th>Всего голосов, %</th>
               <th>Голосов женщин, шт</th>
+              <th>Голосов женщин, %</th>
               <th>Голосов мужчин, шт</th>
+              <th>Голосов мужчин, %</th>
             </tr>
           </thead>
-          <tbody id="results-fact-tbody"></tbody>
+          <tbody id="results-tbody"></tbody>
         </table>
         
       </div>

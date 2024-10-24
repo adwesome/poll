@@ -38,7 +38,7 @@ function draw_chart() {
           backgroundColor: "steelblue",
           data: ages_data['males'].reverse().map((k) => -k),
           //barThickness: 24,
-          barPercentage: 1.18,
+          barPercentage: 1.17,
         },
         {
           label: "Женщины",
@@ -46,7 +46,7 @@ function draw_chart() {
           backgroundColor: "#EE7989",
           data: ages_data['females'].reverse(),
           //barThickness: 24,
-          barPercentage: 1.18,
+          barPercentage: 1.17,
         },
       ],
     }
