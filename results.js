@@ -286,6 +286,7 @@ function fill_table() {
   let result = '';
   for (oid in orgs_stats) {
     const org = orgs_stats[oid];
+    const category = get_category_by_type(orgs_dict[oid].type);
     org['tp'] = Math.round((100 * org.total / participants) * 10) / 10;
 
     result += `<tr>`;
