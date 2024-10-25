@@ -267,7 +267,7 @@ function filter_by_search_input() {
   if (fd.length == 0)
     return;
 
-  if (!table.search())
+  if (!table.search() && !table.column(3).search())
     return;
 
   const votes_extra_clean = [];
@@ -480,8 +480,14 @@ function apply_filters() {
   //let table = new DataTable('#results');
   if (setup.category == 'all')
     table.column(3).search('').draw(); // reset
-  else
+  else {
     table.column(3).search(setup.category).draw();
+    collect_votes_by_setup();
+    participants = votes_clean.length;
+    calc_sexes();
+    calc_orgs_stats('total');
+    draw_chart();
+  }
 }
 
 function enable_listeners() {
