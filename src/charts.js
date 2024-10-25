@@ -26,6 +26,10 @@ var options = {
 function draw_chart() {
   const ages_data = calc_ages();
 
+  let existing_chart = Chart.getChart("chart"); // <canvas> id
+  if (existing_chart != undefined)
+    existing_chart.destroy();
+
   new Chart('chart', {
     type: 'bar',
     options: options,

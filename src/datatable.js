@@ -1,5 +1,5 @@
 function apply_datatable(element_id) {
-  const table = new DataTable(`#${element_id}`, {
+  table = new DataTable(`#${element_id}`, {
     language: {
       search: "",
       searchPlaceholder: "Поиск по таблице...",
