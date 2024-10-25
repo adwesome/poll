@@ -216,18 +216,38 @@ function calc_voters() {
   document.getElementById('voters').innerHTML = result;
 }
 
-function collect_votes_by_setup() {
-  votes_clean = [];
+function filter_by_data_clarity() {
+  const votes_extra_clean = [];
   votes.forEach((vote) => {
     if (setup.clarity == 'all') {
       if (vote[ids_voters.orgs] != '')
-        votes_clean.push(vote);
+        votes_extra_clean.push(vote);
     }
     else {
       if (vote[ids_voters.orgs] != '' && !bad_voters.includes(vote[0]))
-        votes_clean.push(vote);
+        votes_extra_clean.push(vote);
     }
   });
+  votes_clean = votes_extra_clean;
+}
+
+function filter_by_sex() {
+  if (setup.sex == 'all')
+    return;
+
+  const votes_extra_clean = [];
+  votes_clean.forEach((vote) => {
+    if (setup.sex == 'f' && vote[ids_voters.sex] == 1)
+      votes_extra_clean.push(vote);
+    else if (setup.sex == 'm' && vote[ids_voters.sex] == 2)
+      votes_extra_clean.push(vote);
+  });
+  votes_clean = votes_extra_clean;
+}
+
+function collect_votes_by_setup() {
+  filter_by_data_clarity();
+  filter_by_sex();
 }
 
 function calc_ages() {
@@ -300,10 +320,17 @@ function fill_table() {
     const category = get_category_by_type(orgs_dict[oid].type);
 
     r = [
-      oid, orgs_dict[oid].name, orgs_dict[oid].type, category,
-      orgs_dict[oid].address, org.total, Math.round((100 * org.total / participants) * 10) / 10,
-      org.f, Math.round((org.f * 100 / females) * 10) / 10,
-      org.m, Math.round((org.m * 100 / males) * 10) / 10,
+      oid, 
+      orgs_dict[oid].name, 
+      orgs_dict[oid].type, 
+      category,
+      orgs_dict[oid].address, 
+      org.total, 
+      Math.round((100 * org.total / participants) * 10) / 10,
+      org.f,
+      org.f == 0 ? 0 : Math.round((org.f * 100 / females) * 10) / 10,
+      org.m, 
+      org.m == 0 ? 0 : Math.round((org.m * 100 / males) * 10) / 10,
     ];
     result.push(r);
   }
