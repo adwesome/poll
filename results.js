@@ -262,9 +262,29 @@ function filter_by_sex() {
   votes_clean = votes_extra_clean;
 }
 
+function filter_by_search_input() {
+  const fd = table.rows( {search:'applied'} ).data();
+  if (fd.length == 0)
+    return;
+
+  if (!table.search())
+    return;
+
+  const votes_extra_clean = [];
+  for (let i = 0; i < fd.length; i++) {
+    const oid = fd[i][0];
+    votes_clean.forEach((vote) => {
+      if (vote[ids_voters.orgs].split(',').includes(oid))
+        votes_extra_clean.push(vote);
+    });
+  }
+  votes_clean = votes_extra_clean;
+}
+
 function collect_votes_by_setup() {
   filter_by_data_clarity();
   filter_by_sex();
+  filter_by_search_input();
 }
 
 function calc_ages() {
@@ -453,7 +473,7 @@ function orgs_to_dict() {
 
 function apply_filters() {
   //collect_setup();
-
+  console.log(1)
   redraw_page();
 
   // category
