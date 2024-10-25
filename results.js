@@ -9,7 +9,7 @@ var orgs_stats = {}, table;
 
 const sexes = {'f': 1, 'm': 2};
 const ages = {
-  1: 'до 14 лет',
+  1: '10-14 лет',
   2: '15-19 лет',
   3: '20-24 лет',
   4: '25-29 лет',
@@ -21,8 +21,25 @@ const ages = {
   10: '55-59 лет',
   11: '60-64 лет',
   12: '65-69 лет',
-  13: 'от 70 лет',
+  13: '70-79 лет',
 };
+
+const ru = {
+  '10-14 лет': {'males': 4716792, 'females': 4471948},
+  '15-19 лет': {'males': 4060571, 'females': 3882861},
+  '20-24 лет': {'males': 3695263, 'females': 3557843},
+  '25-29 лет': {'males': 3698549, 'females': 3593328},
+  '30-34 лет': {'males': 5043324, 'females': 4945787},
+  '35-39 лет': {'males': 6354235, 'females': 6385462},
+  '40-44 лет': {'males': 5651019, 'females': 5914216},
+  '45-49 лет': {'males': 4965318, 'females': 5464120},
+  '50-54 лет': {'males': 4436200, 'females': 5001925},
+  '55-59 лет': {'males': 3818980, 'females': 4615266},
+  '60-64 лет': {'males': 4195118, 'females': 5641975},
+  '65-69 лет': {'males': 3484287, 'females': 5430683},
+  '70-79 лет': {'males': 3718328, 'females': 7203090},
+};
+
 const ids_voters = {'sex': 5, 'age': 6, 'orgs': 8};
 
 const bad_voters = [247, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 115, 139, 109, 105, 264, 184, 61, 257, 110, 128, 196, 72, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 43, 18, 245, 106, 78, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288];
@@ -263,13 +280,15 @@ function calc_ages() {
       ages_stats[vote[ids_voters.age]]['m'] += 1;
   });
 
-  let ms_p = [];
-  let fs_p = [];
+  let ms = [], ms_p = [];
+  let fs = [], fs_p = [];
   for (key in ages_stats) {
     //let total = ages_stats[key].total;
     //let total_p = parseInt(total * 100 / participants);
     let f = ages_stats[key].f;
+    fs.push(f);
     let m = ages_stats[key].m;
+    ms.push(m);
     let f_p = Math.round((f * 100 / participants) * 10) / 10;
     let m_p = Math.round((m * 100 / participants) * 10) / 10;
     //result += `${ages[key]}: ${total} (${total_p}%) (из которых Женщин: ${f} (${f_p}), Мужчин: ${m} (${m_p}))<br>`;
@@ -277,7 +296,7 @@ function calc_ages() {
     ms_p.push(m_p);
   }
   
-  return {'females': fs_p, 'males': ms_p};
+  return {'females': fs, 'males': ms};
 }
 
 function get_category_by_type(type) {
@@ -481,6 +500,18 @@ function redraw_page() {
   draw_chart();
 }
 
+function get_ages_data() {
+  const population_segezha = 22000;
+  const population_russia = 144820422;
+  const k = population_segezha / population_russia;
+  const ages_data = {'males': [], 'females': []};
+  for (age in ru) {
+    ages_data.males.push(ru[age].males * k);
+    ages_data.females.push(ru[age].females * k);
+  }
+  return ages_data;
+}
+
 window.onload = async function() {
   //uid = get_uid();
   //orgs = (await get_smth('orgs')).orgs;
@@ -489,6 +520,7 @@ window.onload = async function() {
   
   redraw_page();
   fill_categories();
+  draw_chart('chart-ru', get_ages_data('ru'));
   /*
   collect_setup();
   //votes = (await get_smth('votes')).votes.slice(0, 900);

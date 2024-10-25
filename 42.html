@@ -87,7 +87,7 @@
         font-size: 16px;
       }
 
-      #chart {
+      .margin {
         margin: 1.5em 0;
       }
     </style>
@@ -168,8 +168,13 @@
           <select class="form-select" id="category"></select>
         </div>
         
-        <div class="col-lg-6 col-md-12 col-sm-12">
+        <div class="col-lg-6 col-md-12 col-sm-12 margin">
+          <h5>Пирамида анкетирования</h5>
           <canvas id="chart"></canvas>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 margin">
+          <h5>Пирамида Сегежи</h5>
+          <canvas id="chart-ru"></canvas>
         </div>
 
         <table id="results" class="display table table-sm table-striped">

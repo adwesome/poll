@@ -15,32 +15,43 @@ var options = {
     x: {
       title: {
         display: true,
-        text: '% в выборке',
+        text: 'Человек',
       },
       suggestedMin: -16,
       suggestedMax: 16,
       //min: -14,
       //max: 14,
       ticks: {
-        stepSize: 2,
+        //stepSize: 2,
         callback: (v) => v > 0 ? v : -v,
       },      
     },
   },
 };
 
-function draw_chart() {
-  const ages_data = calc_ages();
+function compose_labels() {
+  let labels = [];
+  for (key in ages) {
+    labels.push(ages[key]);
+  }
+  return labels;
+}
 
-  let existing_chart = Chart.getChart("chart"); // <canvas> id
+function draw_chart(canvas_id, ages_data) {
+  if (!canvas_id)
+    canvas_id = 'chart';
+  if (!ages_data)
+    ages_data = calc_ages();
+
+  let existing_chart = Chart.getChart(canvas_id);
   if (existing_chart != undefined)
     existing_chart.destroy();
 
-  new Chart('chart', {
+  new Chart(canvas_id, {
     type: 'bar',
     options: options,
     data: {
-      labels: ['до 14 лет', '15-19 лет', '20-24 лет', '25-29 лет', '30-34 лет', '35-39 лет', '40-44 лет', '45-49 лет', '50-54 лет', '55-59 лет', '60-64 лет', '65-69 лет', 'от 70 лет'].reverse(),
+      labels: compose_labels().reverse(),
       datasets: [
         {
           label: "Мужчины",
