@@ -487,7 +487,6 @@ function redraw_page() {
   collect_votes_by_setup();
   participants = votes_clean.length;
 
-  enable_listeners();
   //calc_voters();
   calc_sexes();
   //calc_ages();
@@ -506,8 +505,8 @@ function get_ages_data() {
   const k = population_segezha / population_russia;
   const ages_data = {'males': [], 'females': []};
   for (age in ru) {
-    ages_data.males.push(ru[age].males * k);
-    ages_data.females.push(ru[age].females * k);
+    ages_data.males.push(Math.round(ru[age].males * k));
+    ages_data.females.push(Math.round(ru[age].females * k));
   }
   return ages_data;
 }
@@ -520,7 +519,8 @@ window.onload = async function() {
   
   redraw_page();
   fill_categories();
-  draw_chart('chart-ru', get_ages_data('ru'));
+  draw_chart('chart-sg', get_ages_data());
+  enable_listeners();
   /*
   collect_setup();
   //votes = (await get_smth('votes')).votes.slice(0, 900);
