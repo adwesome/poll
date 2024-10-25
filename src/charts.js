@@ -13,13 +13,19 @@ var options = {
   },
   scales: {
     x: {
-        min: -14,
-        max: 14,
-        ticks: {
-          stepSize: 2,
-          callback: (v) => v > 0 ? v : -v,
-        },      
+      title: {
+        display: true,
+        text: '% в выборке',
       },
+      suggestedMin: -16,
+      suggestedMax: 16,
+      //min: -14,
+      //max: 14,
+      ticks: {
+        stepSize: 2,
+        callback: (v) => v > 0 ? v : -v,
+      },      
+    },
   },
 };
 
