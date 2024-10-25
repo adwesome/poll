@@ -15,7 +15,7 @@ var options = {
     x: {
       title: {
         display: true,
-        text: 'Человек',
+        text: 'Кол-во человек',
       },
       suggestedMin: -16,
       suggestedMax: 16,
