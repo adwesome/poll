@@ -438,7 +438,7 @@ function apply_filters() {
   redraw_page();
 
   // category
-  let table = new DataTable('#results');
+  //let table = new DataTable('#results');
   if (setup.category == 'all')
     table.column(3).search('').draw(); // reset
   else
@@ -475,7 +475,6 @@ function redraw_page() {
 
   calc_orgs_stats('total');
   fill_table();
-  fill_categories();
   //collect_setup();
   //calc_orgs_normalized_stats();
 
@@ -489,6 +488,7 @@ window.onload = async function() {
   apply_datatable('results');
   
   redraw_page();
+  fill_categories();
   /*
   collect_setup();
   //votes = (await get_smth('votes')).votes.slice(0, 900);
