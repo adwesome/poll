@@ -296,6 +296,10 @@ function collect_votes_by_setup() {
   filter_by_search_input();
 }
 
+function sum_of_array(array) {  // https://stackoverflow.com/questions/1230233/how-to-find-the-sum-of-an-array-of-numbers
+  return array.reduce(function(a, b) { return a + b; }, 0);
+}
+
 function calc_ages() {
   let ages_stats = {...ages};
   for (key in ages_stats)

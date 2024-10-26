@@ -72,4 +72,88 @@ function draw_chart(canvas_id, ages_data) {
       ],
     }
   });
+
+  ages_data = calc_ages();
+  canvas_id = 'chart-sexes'
+  existing_chart = Chart.getChart(canvas_id);
+  if (existing_chart != undefined)
+    existing_chart.destroy();
+
+  new Chart(canvas_id, {
+    type: 'doughnut',
+    //options: options,
+    data: {
+      labels: [
+        'Женщины',
+        'Мужчины',
+      ],
+      datasets: [{
+        //label: 'My First Dataset',
+        data: [sum_of_array(ages_data.females), sum_of_array(ages_data.males)],
+        backgroundColor: [
+          '#EE7989',
+          'steelblue',
+        ],
+        hoverOffset: 4
+      }]
+    }
+  });
+
+  canvas_id = 'chart-females'
+  existing_chart = Chart.getChart(canvas_id);
+  if (existing_chart != undefined)
+    existing_chart.destroy();
+
+  const fs = sum_of_array(ages_data.females);
+  var rest = females - fs;
+  new Chart(canvas_id, {
+    type: 'doughnut',
+    //options: options,
+    data: {
+      labels: [
+        'Женщины',
+        '',
+      ],
+      datasets: [{
+        //label: 'My First Dataset',
+        data: [fs, rest],
+        backgroundColor: [
+          '#EE7989',
+          'white',
+        ],
+        hoverOffset: 4
+      }]
+    }
+  });
+
+  canvas_id = 'chart-males'
+  existing_chart = Chart.getChart(canvas_id);
+  if (existing_chart != undefined)
+    existing_chart.destroy();
+
+  const ms = sum_of_array(ages_data.males);
+  rest = males - ms;
+  
+  new Chart(canvas_id, {
+    type: 'doughnut',
+    //options: options,
+    data: {
+      labels: [
+        'Мужчины',
+        '',
+      ],
+      datasets: [{
+        //label: 'My First Dataset',
+        data: [ms, rest],
+        backgroundColor: [
+          'steelblue',
+          'white',
+        ],
+        hoverOffset: 4
+      }]
+    }
+  });
+
 }
+
+

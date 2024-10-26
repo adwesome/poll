@@ -166,16 +166,38 @@
           <label>Категория:</label>
           <select class="form-select" id="category"></select>
         </div>
-        
+      </div>
+
+      <div class="row">
+
         <div class="col-lg-6 col-md-12 col-sm-12 margin">
           <h5>Возрастно-половая пирамида по установленным фильтрам</h5>
           <canvas id="chart"></canvas>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12 margin">
-          <h5>Возрастно-половая пирамида Сегежи</h5>
+          <h5>Возрастно-половая пирамида Сегежи (здесь для справки)</h5>
           <canvas id="chart-sg"></canvas>
         </div>
+      </div>
 
+      <div class="row">
+        <div class="col-lg-3 col-md-12 col-sm-12 margin">
+          <h5>Соотношение женщин и мужчин в выборке</h5>
+          <canvas id="chart-sexes"></canvas>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 margin">
+          <h5>Доля женщин в выборке от всех анкетированных женщин</h5>
+          <canvas id="chart-females"></canvas>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 margin">
+          <h5>Доля мужчин в выборке от всех анкетированных мужчин</h5>
+          <canvas id="chart-males"></canvas>
+        </div>
+      </div>
+
+      <div class="row">
         <table id="results" class="display table table-sm table-striped">
           <thead>
             <tr>
