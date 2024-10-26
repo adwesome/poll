@@ -112,14 +112,14 @@ function draw_chart(canvas_id, ages_data) {
     data: {
       labels: [
         'Женщины',
-        '',
+        'Остальные женщины',
       ],
       datasets: [{
         //label: 'My First Dataset',
         data: [fs, rest],
         backgroundColor: [
           '#EE7989',
-          'white',
+          '#f5cad0',
         ],
         hoverOffset: 4
       }]
@@ -140,14 +140,14 @@ function draw_chart(canvas_id, ages_data) {
     data: {
       labels: [
         'Мужчины',
-        '',
+        'Остальные мужчины',
       ],
       datasets: [{
         //label: 'My First Dataset',
         data: [ms, rest],
         backgroundColor: [
           'steelblue',
-          'white',
+          '#cbdbe9',
         ],
         hoverOffset: 4
       }]

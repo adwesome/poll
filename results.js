@@ -208,6 +208,15 @@ async function get_smth(smth) {
 }
 */
 
+function draw_ages_checkboxes() {
+  let result = '';
+  for (id in ages) {
+    const label = ages[id];
+    result = `<input type="checkbox" class="selected_ages" name="" value="${id}" checked> <label>${label}</label><br>` + result;
+  }
+  document.getElementById("ages").innerHTML = result;
+}
+
 function calc_sexes() {
   let r = {'f': 0, 'm': 0};
   votes_clean.forEach((vote) => {  
@@ -519,6 +528,12 @@ function collect_setup() {
   selectors.forEach((el) => {
     setup[el.id] = el.value;
   });
+  const selected_ages = [];
+  const checkboxes = document.querySelectorAll('.selected_ages:checked');
+  checkboxes.forEach((el) => {
+    selected_ages.push(parseInt(el.value));
+  });
+  setup["selected_ages"] = selected_ages;
 }
 
 function redraw_page() {
@@ -558,15 +573,16 @@ window.onload = async function() {
   orgs_to_dict();
   apply_datatable('results');
   
+  draw_ages_checkboxes();
   redraw_page();
   fill_categories();
+  
   draw_chart('chart-sg', get_ages_data());
   enable_listeners();
   /*
   collect_setup();
   //votes = (await get_smth('votes')).votes.slice(0, 900);
   //visitors = votes.length;
-  collect_votes_by_setup();
   participants = votes_clean.length;
 
   enable_listeners();
@@ -575,7 +591,6 @@ window.onload = async function() {
   //calc_ages();
 
   calc_orgs_stats('total');
-  fill_table();
   fill_categories();
   collect_setup();
   //calc_orgs_normalized_stats();
