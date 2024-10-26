@@ -271,12 +271,16 @@ function filter_by_search_input() {
     return;
 
   const votes_extra_clean = [];
+  const pushed_votes = [];
   for (let i = 0; i < fd.length; i++) {
     const oid = fd[i][0];
-    votes_clean.forEach((vote) => {
-      if (vote[ids_voters.orgs].split(',').includes(oid))
+    for (let j = 0; j < votes_clean.length; j++) {
+      const vote = votes_clean[j];
+      if (vote[ids_voters.orgs].split(',').includes(oid) && !pushed_votes.includes(vote[0])) {
         votes_extra_clean.push(vote);
-    });
+        pushed_votes.push(vote[0]);
+      }
+    }
   }
   votes_clean = votes_extra_clean;
 }
@@ -472,9 +476,9 @@ function orgs_to_dict() {
 }
 
 function apply_filters() {
-  //collect_setup();
-  console.log(1)
-  redraw_page();
+  collect_setup();
+  //console.log(1)
+  
 
   // category
   //let table = new DataTable('#results');
@@ -482,12 +486,14 @@ function apply_filters() {
     table.column(3).search('').draw(); // reset
   else {
     table.column(3).search(setup.category).draw();
-    collect_votes_by_setup();
-    participants = votes_clean.length;
-    calc_sexes();
-    calc_orgs_stats('total');
-    draw_chart();
+    //collect_votes_by_setup();
+    //participants = votes_clean.length;
+    //calc_sexes();
+    //calc_orgs_stats('total');
+    //draw_chart();
   }
+
+  redraw_page();
 }
 
 function enable_listeners() {
