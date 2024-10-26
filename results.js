@@ -221,7 +221,7 @@ function calc_sexes() {
   males = r.m;
   females_p = parseInt((females * 100 / participants));
   males_p = parseInt((males * 100 / participants));
-  console.log('calc_sexes', females, males)
+  //console.log('calc_sexes', females, males)
   //let result = `Женщин: ${females} (${females_p}%). Мужчин: ${males} (${males_p}%).`;
   //document.getElementById('sexes').innerHTML = result;
 }
@@ -265,11 +265,14 @@ function filter_by_sex() {
 
 function filter_by_search_input() {
   const fd = table.rows( {search:'applied'} ).data();
-  if (fd.length == 0)
+  if (!table.search() && fd.length == 0) // initial load
     return;
-
-  if (!table.search() && !table.column(3).search())
+  else if (!table.search() && !table.column(3).search()) // search applied
     return;
+  else if (fd.length == 0) { // filter no found
+    votes_clean = [];
+    return;
+  }
 
   const votes_extra_clean = [];
   const pushed_votes = [];
