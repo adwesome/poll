@@ -212,7 +212,7 @@ function draw_ages_checkboxes() {
   let result = '';
   for (id in ages) {
     const label = ages[id];
-    result = `<input type="checkbox" class="selected_ages" name="" value="${id}" checked> <label>${label}</label><br>` + result;
+    result = `<label class="ages-group"><input type="checkbox" class="selected_ages" name="" value="${id}" checked> ${label}</label><br>` + result;
   }
   document.getElementById("ages").innerHTML = result;
 }
@@ -272,6 +272,17 @@ function filter_by_sex() {
   votes_clean = votes_extra_clean;
 }
 
+function filter_by_ages() {
+  const votes_extra_clean = [];
+  votes_clean.forEach((vote) => {
+    if (setup.selected_ages.includes(vote[ids_voters.age])) {
+      votes_extra_clean.push(vote);
+    }
+  });
+
+  votes_clean = votes_extra_clean;
+}
+
 function filter_by_search_input() {
   const fd = table.rows( {search:'applied'} ).data();
   if (!table.search() && fd.length == 0) // initial load
@@ -302,6 +313,7 @@ function collect_votes_by_setup() {
   filter_by_data_clarity();
   filter_by_sex();
   calc_sexes();
+  filter_by_ages();
   filter_by_search_input();
 }
 
@@ -521,6 +533,12 @@ function enable_listeners() {
       apply_filters();
     });
   });
+  const checkboxes = document.querySelectorAll('.selected_ages');
+  checkboxes.forEach((el) => {
+    el.addEventListener('change', function(e) {
+      apply_filters();
+    });
+  });
 }
 
 function collect_setup() {
@@ -585,7 +603,6 @@ window.onload = async function() {
   //visitors = votes.length;
   participants = votes_clean.length;
 
-  enable_listeners();
   //calc_voters();
   calc_sexes();
   //calc_ages();
