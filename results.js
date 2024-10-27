@@ -312,10 +312,10 @@ function filter_by_search_input() {
 function collect_votes_by_setup() {
   filter_by_data_clarity();
   participants = votes_clean.length;
-  votes_clean_fixed = votes_clean;
   filter_by_sex();
   calc_sexes();
   filter_by_ages();
+  votes_clean_fixed = votes_clean;
   filter_by_search_input();
 }
 
