@@ -87,7 +87,7 @@
         font-size: 16px;
       }
 
-      .margin {
+      .margin-top {
         margin: 1.5em 0;
       }
 
@@ -107,150 +107,143 @@
   </head>
   <body>
     <div class="container">
-      <!--div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <p id="voters"></p>
-          <p id="sexes"></p>
-          <p id="ages"></p>
-          <p id="orgs"></p>
-        </div>
-      </div-->
 
-      <div class="row">
-        <div class="col">
-          <!--label>Данные:</label><br>
-          <div class="btn-group btn-group-sm-" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-            <label class="btn btn-outline-primary" for="btnradio1">Фактические</label>
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Аналитика</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Об источнике данных</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+          <div class="row" id="table">
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio2">Нормализованные</label>
+            <div class="col-lg-4">
+              <label>Данные:</label>
+              <select class="form-select" id="data-source" disabled>
+                <option value="fact">Фактически полученные</option>
+                <option value="approx" disabled>Приведенные на весь город</option>
+              </select>
+            </div>
 
-            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-            <label class="btn btn-outline-primary" for="btnradio3">Приведённые</label>
+            <div class="col-lg-3">
+              <label>Чистота данных:</label>
+              <select class="form-select" id="clarity">
+                <option value="all">Все анкеты</option>
+                <option value="clean">Все анкеты, кроме сомнительных</option>
+              </select>
+            </div>
+            <div class="col-lg-2">
+              <label>Пол:</label>
+              <select class="form-select" id="sex">
+                <option value="all">Все</option>
+                <option value="f">Женщины</option>
+                <option value="m">Мужчины</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3">
+              <label>Категория:</label>
+              <select class="form-select" id="category"></select>
+            </div>
           </div>
-          <div-->
-            <!--div style="width: 800px;">
+
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12 margin-top">
+              <h5>Возрастно-половая пирамида по установленным фильтрам</h5>
               <canvas id="chart"></canvas>
-            </div-->
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 margin-top">
+              <h5>Возрастно-половая пирамида Сегежи</h5>
+              <canvas id="chart-sg"></canvas>
+            </div>
+          </div>
 
-            <!--p>Фактические - это те данные, которые мы получили, проводя анкетирование. Это данные без каких-либо изменений.</p>
-            <p>Нормализованные - это фактические данные, измененные таким образом, чтобы количество женщин и мужчин стало равным. В фактических данных у нас женщин 87%, а мужчин 13% (такой профиль группы "Сегежские Будни", откуда приходили люди заполнять анкету - и этот профиль естественным образом отпечатался на фактических голосах). В нормализованных же данных женщин и мужчин одинаково: по 50%. Как мы этого добились? Для каждой организации мы разделили голоса женщин на 87 (чтобы получить 1%) и затем умножили результат на 50 (чтобы получить 50%). И точно так же для мужчин: разделили мужские голоса за каждую организацию на 13 (чтобы получить 1%) и затем умножили результат на 50 (чтобы получить 50%). Так у нас 50% женщин и 50% мужчин. Нормализованные данные позволяют увидеть картину полнее, с учетом тех, кто не пришел за счет данных от тех, кто пришел (пришедшие мужчины представительствовали за непришедших мужчин своими голосами) и ответить на вопрос: "А если бы мужчин пришло столько же, сколько и женщин, то какой был бы тогда результат?". Равное количество мужчин и женщин справедливо для России примерно до 50 лет (а это почти все фактически проголосовавшие).</p>
-            <p>Приведённые - это нормализованные данные, которые мы привели к возрастно-половой пирамиде населения страны. Население каждого крупного населенного пункта в стране имеет ту же форму возростно-половой пирамиды, что и вся страна. Поэтому, если мы знаем, сколько в населенном пункте живет человек, то, благодаря такой пирамиде, мы можем сказать, сколько примерно человек какого пола и возраста живет в этом городе. И далее этот прием дает нам возможность экстраполировать голоса тех лиц пола и возраста, которые пришли, на оставшихся тех, кто не пришли, в той же возрастно-половой группе, которые живут в этом городе. А т.к. в исходных, фактических данных мы имеем голоса из всех возростно-половых групп, то это дает нам возможность экстраполировать эти данные на весь город. С помощью математики.</p>
-          </div-->
+          <div class="row">
+            <div class="col-lg-3 col-md-12 col-sm-12 margin-top">
+              <h5>Соотношение женщин и мужчин в выборке</h5>
+              <canvas id="chart-sexes"></canvas>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 margin-top">
+              <h5>Доля женщин в выборке от всех анкетированных женщин</h5>
+              <canvas id="chart-females"></canvas>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 margin-top">
+              <h5>Доля мужчин в выборке от всех анкетированных мужчин</h5>
+              <canvas id="chart-males"></canvas>
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 margin-top">
+              <table>
+                <tr>
+                  <th><h5>Возрастные группы</h5></th>
+                  <th><h5>Оц. аудитории по городу</h5></th>
+                </tr>
+                <tr>
+                  <td id="ages"></td>
+                  <td>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+                    -<br>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <table id="results" class="display table table-sm table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Название</th>
+                  <th>Описание</th>
+                  <th>Категория</th>
+                  <th>Адрес</th>
+                  <th>Всего голосов, шт</th>
+                  <th>Всего голосов, %</th>
+                  <th>Голосов женщин, шт</th>
+                  <th>Голосов женщин, %</th>
+                  <th>Голосов мужчин, шт</th>
+                  <th>Голосов мужчин, %</th>
+                </tr>
+              </thead>
+              <tbody id="results-tbody"></tbody>
+            </table>
+            
+          </div>
         </div>
-      </div>
-      <div class="row" id="table">
-
-        <div class="col-lg-4">
-          <label>Данные:</label>
-          <select class="form-select" id="data-source" disabled>
-            <option value="fact">Фактически полученные</option>
-            <option value="approx" disabled>Приведенные на весь город</option>
-          </select>
-        </div>
-
-        <div class="col-lg-3">
-          <label>Чистота данных:</label>
-          <select class="form-select" id="clarity">
-            <option value="all">Все анкеты</option>
-            <option value="clean">Все анкеты, кроме сомнительных</option>
-          </select>
-        </div>
-        <div class="col-lg-2">
-          <label>Пол:</label>
-          <select class="form-select" id="sex">
-            <option value="all">Все</option>
-            <option value="f">Женщины</option>
-            <option value="m">Мужчины</option>
-          </select>
-        </div>
-
-        <div class="col-lg-3">
-          <label>Категория:</label>
-          <select class="form-select" id="category"></select>
-        </div>
-      </div>
-
-      <div class="row">
-
-        <div class="col-lg-6 col-md-12 col-sm-12 margin">
-          <h5>Возрастно-половая пирамида по установленным фильтрам</h5>
-          <canvas id="chart"></canvas>
-        </div>
-        <div class="col-lg-6 col-md-12 col-sm-12 margin">
-          <h5>Возрастно-половая пирамида Сегежи</h5>
-          <canvas id="chart-sg"></canvas>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-12 col-sm-12 margin">
-          <h5>Соотношение женщин и мужчин в выборке</h5>
-          <canvas id="chart-sexes"></canvas>
-        </div>
-
-        <div class="col-lg-3 col-md-12 col-sm-12 margin">
-          <h5>Доля женщин в выборке от всех анкетированных женщин</h5>
-          <canvas id="chart-females"></canvas>
-        </div>
-
-        <div class="col-lg-3 col-md-12 col-sm-12 margin">
-          <h5>Доля мужчин в выборке от всех анкетированных мужчин</h5>
-          <canvas id="chart-males"></canvas>
-        </div>
-
-        <div class="col-lg-3 col-md-12 col-sm-12 margin">
-          <table>
-            <tr>
-              <th><h5>Возрастные группы</h5></th>
-              <th><h5>Оц. аудитории по городу</h5></th>
-            </tr>
-            <tr>
-              <td id="ages"></td>
-              <td>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-                -<br>
-
-              </td>
-            </tr>
-          </table>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+          <div class="row">
+            <div class="col-lg-8">
+              <ul>
+                <li><a href="https://vk.com/segezhadays?w=wall-78535365_55427" target="_blank">Изначальный пост</a> (16:00, 18 октября 2024) во Вконтакте в группе "Сегежские Будни".<br>Был в закрепленных менее 1 суток, затем был снят с закрепленных. Суммарно набрал 32 лайка, 18 репостов, 3.2k+ просмотра.</li>
+                <li><a href="https://vk.com/segezhadays?w=wall-78535365_55510" target="_blank">Репост изначального поста</a> (12:00, 19 октября 2024) там же.<br>Был в закрепленных почти 1 сутки. Суммарно набрал 10 лайков, 7 репостов, 2.3k+ просмотров.</li>
+                <li><a href="https://vk.com/segezhadays?w=wall-78535365_55576" target="_blank">Пост-напоминание о последнем дне анкитирования</a>. Был в закрепленных 12 часов. Суммарно набрал 15 лайков, 3 репоста, 2.7k+ просмотров.</li>
+                <li>Видео (демо анкеты), участвовавшее в изначальном посте и его репосте, суммарно набрало 5.6k+ просмотров.</li>
+                <li><a href="https://vk.com/segezhadays?w=wall-78535365_55613">Пост о готовности результатов анкетирования</a> (08:00, 21 октября 2024).<br>Был в закрепленных 1 сутки. Суммарно набрал 18 лайков, 1 репост, 2.4k+ просмотров.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <table id="results" class="display table table-sm table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Название</th>
-              <th>Описание</th>
-              <th>Категория</th>
-              <th>Адрес</th>
-              <th>Всего голосов, шт</th>
-              <th>Всего голосов, %</th>
-              <th>Голосов женщин, шт</th>
-              <th>Голосов женщин, %</th>
-              <th>Голосов мужчин, шт</th>
-              <th>Голосов мужчин, %</th>
-            </tr>
-          </thead>
-          <tbody id="results-tbody"></tbody>
-        </table>
-        
-      </div>
     </div>
   </body>
 </html>

@@ -288,16 +288,16 @@ function filter_by_search_input() {
   const fd = table.rows( {search:'applied'} ).data();
   const category = document.getElementById('category');
   if (!table.search() && fd.length == 0 && category.value == '') { // initial load
-    console.log('filter_by_search_input', 'init');
+    //console.log('filter_by_search_input', 'init');
     return;
   }
   else if (!table.search() && !table.column(3).search()) { // search applied 
-    console.log('filter_by_search_input', 'search');
+    //console.log('filter_by_search_input', 'search');
     return;
   }
   else if (fd.length == 0) { // filter no found
     votes_clean = [];
-    console.log('filter_by_search_input', '404');
+    //console.log('filter_by_search_input', '404');
     return;
   }
 
