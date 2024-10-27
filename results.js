@@ -286,12 +286,18 @@ function filter_by_ages() {
 
 function filter_by_search_input() {
   const fd = table.rows( {search:'applied'} ).data();
-  if (!table.search() && fd.length == 0) // initial load
+  const category = document.getElementById('category');
+  if (!table.search() && fd.length == 0 && category.value == '') { // initial load
+    console.log('filter_by_search_input', 'init');
     return;
-  else if (!table.search() && !table.column(3).search()) // search applied
+  }
+  else if (!table.search() && !table.column(3).search()) { // search applied 
+    console.log('filter_by_search_input', 'search');
     return;
+  }
   else if (fd.length == 0) { // filter no found
     votes_clean = [];
+    console.log('filter_by_search_input', '404');
     return;
   }
 
@@ -310,10 +316,27 @@ function filter_by_search_input() {
   votes_clean = votes_extra_clean;
 }
 
+/*
+function filter_by_category() {
+  const votes_extra_clean = [];
+  if (setup.category == 'all' || setup.category == '')
+    return;
+
+  votes_clean.forEach((vote) => {
+    if (setup.category == 1) {
+      votes_extra_clean.push(vote);
+    }
+  });
+
+  votes_clean = votes_extra_clean;
+}
+*/
+
 function collect_votes_by_setup() {
   filter_by_data_clarity();
   participants = votes_clean.length;
   filter_by_sex();
+  //filter_by_category();
   calc_sexes();
   filter_by_ages();
   votes_clean_fixed = votes_clean;
@@ -346,11 +369,11 @@ function calc_ages() {
     fs.push(f);
     let m = ages_stats[key].m;
     ms.push(m);
-    let f_p = Math.round((f * 100 / participants) * 10) / 10;
-    let m_p = Math.round((m * 100 / participants) * 10) / 10;
-    //result += `${ages[key]}: ${total} (${total_p}%) (из которых Женщин: ${f} (${f_p}), Мужчин: ${m} (${m_p}))<br>`;
-    fs_p.push(f_p);
-    ms_p.push(m_p);
+    //let f_p = Math.round((f * 100 / participants) * 10) / 10;
+    //let m_p = Math.round((m * 100 / participants) * 10) / 10;
+    ////result += `${ages[key]}: ${total} (${total_p}%) (из которых Женщин: ${f} (${f_p}), Мужчин: ${m} (${m_p}))<br>`;
+    //fs_p.push(f_p);
+    //ms_p.push(m_p);
   }
   
   return {'females': fs, 'males': ms};
@@ -449,7 +472,6 @@ function apply_filters() {
     table.column(3).search('')//.draw(); // reset
   else {
     table.column(3).search(setup.category)//.draw();
-    //collect_votes_by_setup();
     //participants = votes_clean.length;
     //calc_sexes();
     //calc_orgs_stats('total');
