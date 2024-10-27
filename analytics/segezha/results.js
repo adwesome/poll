@@ -555,7 +555,24 @@ function get_ages_data() {
   return ages_data;
 }
 
+function get_param_from_url(param) {  // https://www.sitepoint.com/get-url-parameters-with-javascript/
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+}
+
+const allowed_keys = ['demonstration'];
+
 window.onload = async function() {
+  const key = get_param_from_url('key');
+  if (!allowed_keys.includes(key)) {
+    document.getElementById('content').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('content-substitute').style.display = 'none';
+  document.getElementById('content').style.visibility = 'visible';
+
   //uid = get_uid();
   //orgs = (await get_smth('orgs')).orgs;
   orgs_to_dict();
@@ -567,21 +584,4 @@ window.onload = async function() {
   
   draw_chart('chart-sg', get_ages_data());
   enable_listeners();
-  /*
-  collect_setup();
-  //votes = (await get_smth('votes')).votes.slice(0, 900);
-  //visitors = votes.length;
-  participants = votes_clean.length;
-
-  //calc_voters();
-  calc_sexes();
-  //calc_ages();
-
-  calc_orgs_stats('total');
-  fill_categories();
-  collect_setup();
-  //calc_orgs_normalized_stats();
-
-  draw_chart();
-  */
 }
