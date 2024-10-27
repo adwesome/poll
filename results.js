@@ -42,8 +42,8 @@ const ru = {
 
 const ids_voters = {'sex': 5, 'age': 6, 'orgs': 8};
 
-const bad_voters = [247, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 115, 139, 109, 105, 264, 184, 61, 257, 110, 128, 196, 72, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 43, 18, 245, 106, 78, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288];
-
+const bad_voters = [247, 267, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 115, 139, 109, 105, 184, 61, 257, 110, 128, 196, 72, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 18, 245, 106, 78, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288];
+// 43, 264
 const categories_map = {
   'Кафе, рестораны, бары': [
     'Кафе-бар',
@@ -214,6 +214,7 @@ function draw_ages_checkboxes() {
     const label = ages[id];
     result = `<label class="ages-group"><input type="checkbox" class="selected_ages" name="" value="${id}" checked> ${label}</label><br>` + result;
   }
+  result = `<label class="ages-group"><input type="checkbox" id="all_ages" name="" value="all" checked> Все</label><br>` + result;
   document.getElementById("ages").innerHTML = result;
 }
 
@@ -470,6 +471,21 @@ function enable_listeners() {
     el.addEventListener('change', function(e) {
       apply_filters();
     });
+  });
+  const all_ages = document.getElementById('all_ages');
+  all_ages.addEventListener('change', function(e) {
+    if (e.target.checked) {
+      checkboxes.forEach((el) => {
+        el.checked = true;
+      });
+    }
+    else {
+      checkboxes.forEach((el) => {
+        el.checked = false;
+      });
+    }
+
+    apply_filters();
   });
 }
 
