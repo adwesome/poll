@@ -54,7 +54,7 @@ function apply_datatable(element_id) {
     collect_votes_by_setup();
     //participants = votes_clean.length;
     //calc_sexes();
-    calc_orgs_stats('total');
+    //calc_orgs_stats('total');
     draw_chart();
     //if (!table.search())
     //  fill_table();

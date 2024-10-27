@@ -312,6 +312,7 @@ function filter_by_search_input() {
 function collect_votes_by_setup() {
   filter_by_data_clarity();
   participants = votes_clean.length;
+  votes_clean_fixed = votes_clean;
   filter_by_sex();
   calc_sexes();
   filter_by_ages();
@@ -370,7 +371,7 @@ function calc_orgs_stats(category) {
 
   orgs.forEach((org) => {
     const oid = org[0];
-    votes_clean.forEach((vote) => {
+    votes_clean_fixed.forEach((vote) => {
       const oids = vote[ids_voters.orgs].split(',');
       if (oids.includes(oid.toString())) {
         if (oid in orgs_stats)
@@ -427,76 +428,6 @@ function fill_categories() {
     result += `<option>${category}</option>`;
   });
   document.getElementById('category').innerHTML = result;
-}
-
-
-function calc_orgs_normalized_stats() {
-  let orgs_stats = {};
-
-  orgs.forEach((org) => {
-    const oid = org[0];
-    votes_clean.forEach((vote) => {
-      const oids = vote[ids_voters.orgs].split(',');
-      if (oids.includes(oid.toString())) {
-        if (oid in orgs_stats)
-          orgs_stats[oid]['total'] += 1;
-        else
-          orgs_stats[oid] = {'total': 1, 'f': 0, 'm': 0};
-
-        if (vote[ids_voters.sex] == sexes.f)
-          orgs_stats[oid]['f'] += 1;
-        else
-          orgs_stats[oid]['m'] += 1;
-      }
-    });
-  });
-
-  let orgs_stats_normalized = {};
-
-  for (oid in orgs_stats) {
-    const oo = orgs_stats[oid];
-    oo.m = Math.round((oo.m * 50 / males_p))// * 100) / 100;
-    oo.f = Math.round((oo.f * 50 / females_p))// * 100) / 100;
-    oo.total = oo.f + oo.m;
-    orgs_stats_normalized[oid] = oo;
-  }
-
-  let totals = [];
-  //let total_votes = 0;
-  for (oid in orgs_stats_normalized) {
-    const o = orgs_stats_normalized[oid];
-    totals.push(o.total);
-    //total_votes += o.total;
-  }
-
-  const totals_sorted = totals.sort(function(a, b){return b-a});
-  const totals_sorted_unique = [...new Set(totals_sorted)];
-  let r = [];
-  totals_sorted_unique.forEach((value) => {
-    for (oid in orgs_stats_normalized) {
-      if (orgs_stats_normalized[oid].total == value) {
-        const o = orgs_stats_normalized[oid];
-        o['tp'] = Math.round((100 * o.total / participants))// * 100) / 100;
-        //o['oid'] = parseInt(oid);
-        o['name'] = orgs_dict[oid].name;
-        o['type'] = orgs_dict[oid].type;
-        o['address'] = orgs_dict[oid].address;
-        r.push(o);
-      }
-    }
-  });
-
-  console.log(r);
-
-  /*
-  let result = '';
-  for (key in orgs_stats) {
-    let total = orgs_stats[key].total;
-    let total_p = parseInt(total * 100 / participants);
-    result += `${orgs[key]}: ${total} (${total_p}%) (из которых Женщин: ${orgs_stats[key].f}, Мужчин: ${orgs_stats[key].m})<br>`;
-  }
-  document.getElementById('orgs').innerHTML = result;
-  */
 }
 
 function orgs_to_dict() {
