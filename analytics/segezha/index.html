@@ -74,7 +74,7 @@
       }
 
       .row {
-        margin-bottom: 1em;
+        margin-bottom: 0.5em;
       }
 
       .justify-content-between {
@@ -91,7 +91,7 @@
         margin: 1.5em 0;
       }
 
-      .ages-group {
+      .ages-group, select {
         cursor: pointer;
       }
     </style>
@@ -144,7 +144,7 @@
 
         <div class="col-lg-4">
           <label>Данные:</label>
-          <select class="form-select" id="data-source">
+          <select class="form-select" id="data-source" disabled>
             <option value="fact">Фактически полученные</option>
             <option value="approx" disabled>Приведенные на весь город</option>
           </select>
@@ -200,9 +200,33 @@
           <canvas id="chart-males"></canvas>
         </div>
 
-        <div class="col-lg-2 col-md-12 col-sm-12 margin" style="margin-left: 30px;">
-          <h5>Возрастные<br>группы</h5>
-          <div id="ages"></div>
+        <div class="col-lg-3 col-md-12 col-sm-12 margin">
+          <table>
+            <tr>
+              <th><h5>Возрастные группы</h5></th>
+              <th><h5>Оц. аудитории по городу</h5></th>
+            </tr>
+            <tr>
+              <td id="ages"></td>
+              <td>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+                -<br>
+
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
 
