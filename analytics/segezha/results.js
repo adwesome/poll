@@ -190,24 +190,6 @@ const categories_map = {
   ],
 };
 
-/*
-function get_uid() {
-  var uid = localStorage.getItem('uid');
-  if (uid)
-    return parseInt(uid);
-  else
-    return null;
-}
-*/
-
-/*
-async function get_smth(smth) {
-  const response = await fetch(SERVER_HOSTNAME + `/${smth}/all`, {});
-  const o = await response.json();
-  return o;
-}
-*/
-
 function draw_ages_checkboxes() {
   let result = '';
   for (id in ages) {
@@ -561,8 +543,6 @@ function get_param_from_url(param) {  // https://www.sitepoint.com/get-url-param
   return urlParams.get(param);
 }
 
-const allowed_keys = ['demonstration'];
-
 window.onload = async function() {
   const key = get_param_from_url('key');
   var msg_403 = 'Для доступа к ресурсу нужен ключ. ';
@@ -572,16 +552,12 @@ window.onload = async function() {
     content.innerHTML = msg_403;
     return;
   }
-  if (!allowed_keys.includes(key)) {
+  if (!a.includes(key)) {
     msg_403 += 'Указанный вами ключ не подходит. '
     content.innerHTML = msg_403;
     return;
   }
 
-  
-
-  //uid = get_uid();
-  //orgs = (await get_smth('orgs')).orgs;
   orgs_to_dict();
   apply_datatable('results');
   
