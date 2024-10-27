@@ -565,13 +565,20 @@ const allowed_keys = ['demonstration'];
 
 window.onload = async function() {
   const key = get_param_from_url('key');
+  var msg_403 = 'Для доступа к ресурсу нужен ключ. ';
+  const content = document.getElementById('content');
+  content.style.visibility = 'visible';
+  if (!key) {
+    content.innerHTML = msg_403;
+    return;
+  }
   if (!allowed_keys.includes(key)) {
-    document.getElementById('content').innerHTML = '';
+    msg_403 += 'Указанный вами ключ не подходит. '
+    content.innerHTML = msg_403;
     return;
   }
 
-  document.getElementById('content-substitute').style.display = 'none';
-  document.getElementById('content').style.visibility = 'visible';
+  
 
   //uid = get_uid();
   //orgs = (await get_smth('orgs')).orgs;
