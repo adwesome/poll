@@ -311,6 +311,7 @@ function filter_by_search_input() {
 
 function collect_votes_by_setup() {
   filter_by_data_clarity();
+  participants = votes_clean.length;
   filter_by_sex();
   calc_sexes();
   filter_by_ages();
@@ -513,9 +514,9 @@ function apply_filters() {
   // category
   //let table = new DataTable('#results');
   if (setup.category == 'all')
-    table.column(3).search('').draw(); // reset
+    table.column(3).search('')//.draw(); // reset
   else {
-    table.column(3).search(setup.category).draw();
+    table.column(3).search(setup.category)//.draw();
     //collect_votes_by_setup();
     //participants = votes_clean.length;
     //calc_sexes();
@@ -559,7 +560,7 @@ function redraw_page() {
   //votes = (await get_smth('votes')).votes.slice(0, 900);
   //visitors = votes.length;
   collect_votes_by_setup();
-  participants = votes_clean.length;
+  //participants = votes_clean.length;
   //calc_sexes();
 
   //calc_voters();
