@@ -12,8 +12,9 @@ var votes_city_base;
 const population_segezha = 22000;
 const population_russia = 144820422;
 const k_sr = population_segezha / population_russia;
-const viewers = 5000 / 2;
-const virality = 3; // to evaluate
+const viewers = 5600 / 1.6;
+var virality = 3; // to evaluate
+var viral_max = 3;
 var filled, k_cr;
 
 
@@ -359,13 +360,16 @@ function fill_audience() {
 
   var html = '';
   let total = 0;
+  let total_max = 0;
   const ages = Object.keys(ru).reverse();
   ages.forEach((age) => {
     const t = result[age].females + result[age].males;
-    html += `${t}<br>`;
+    const t_max = result[age].females * viral_max + result[age].males * viral_max;
+    html += `${t}-${t_max}<br>`;
     total += t;
+    total_max += t_max;
   });
-  html = `<b>${total}</b><br>` + html;
+  html = `<b>${total}-${total_max}</b><br>` + html;
 
   document.getElementById('audience').innerHTML = html;
 }
