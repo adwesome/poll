@@ -56,6 +56,7 @@ function apply_datatable(element_id) {
     //calc_sexes();
     //calc_orgs_stats('total');
     draw_chart();
+    fill_audience();
     //if (!table.search())
     //  fill_table();
   });

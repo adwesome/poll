@@ -6,6 +6,16 @@ var uid, /*orgs, votes,*/ visitors, participants, votes_clean = [], ages_stats =
 var males, females, males_p, females_p;
 const setup = {};
 var orgs_stats = {}, table;
+var votes_city_base;
+
+
+const population_segezha = 22000;
+const population_russia = 144820422;
+const k_sr = population_segezha / population_russia;
+const viewers = 5000 / 2;
+const virality = 3; // to evaluate
+var filled, k_cr;
+
 
 const sexes = {'f': 1, 'm': 2};
 const ages = {
@@ -196,7 +206,7 @@ function draw_ages_checkboxes() {
     const label = ages[id];
     result = `<label class="ages-group"><input type="checkbox" class="selected_ages" name="" value="${id}" checked> ${label}</label><br>` + result;
   }
-  result = `<label class="ages-group"><input type="checkbox" id="all_ages" name="" value="all" checked> Все</label><br>` + result;
+  result = `<label class="ages-group"><input type="checkbox" id="all_ages" name="" value="all" checked> <b>Все</b></label><br>` + result;
   document.getElementById("ages").innerHTML = result;
 }
 
@@ -317,6 +327,9 @@ function filter_by_category() {
 function collect_votes_by_setup() {
   filter_by_data_clarity();
   participants = votes_clean.length;
+  filled = votes_clean.length;
+  k_cr = filled / viewers;
+  votes_city_base = [...votes_clean];
   filter_by_sex();
   //filter_by_category();
   calc_sexes();
@@ -329,12 +342,43 @@ function sum_of_array(array) {  // https://stackoverflow.com/questions/1230233/h
   return array.reduce(function(a, b) { return a + b; }, 0);
 }
 
-function calc_ages() {
+function fill_audience() {
+  const stats_before_filter = calc_ages(votes_city_base);
+  const stats_after_filter = calc_ages();
+  let i = 0;
+  let result = {};
+  for (let age in ru) {
+    const city_population = ru[age];
+    const f_k = stats_after_filter.females[i] / stats_before_filter.females[i];
+    const f_c = Math.round(f_k * k_sr * k_cr * virality * city_population.females);
+    const m_k = stats_after_filter.males[i] / stats_before_filter.males[i];
+    const m_c = Math.round(m_k * k_sr * k_cr * virality * city_population.males);
+    result[age] = {'females': f_c ? f_c : 0, 'males': m_c ? m_c : 0};
+    i++;
+  }
+
+  var html = '';
+  let total = 0;
+  const ages = Object.keys(ru).reverse();
+  ages.forEach((age) => {
+    const t = result[age].females + result[age].males;
+    html += `${t}<br>`;
+    total += t;
+  });
+  html = `<b>${total}</b><br>` + html;
+
+  document.getElementById('audience').innerHTML = html;
+}
+
+function calc_ages(votes) {
+  if (!votes)
+    votes = votes_clean;
+
   let ages_stats = {...ages};
   for (key in ages_stats)
     ages_stats[key] = {'total': 0, 'f': 0, 'm': 0};
 
-  votes_clean.forEach((vote) => {
+  votes.forEach((vote) => {
     ages_stats[vote[ids_voters.age]]['total'] += 1;
     if (vote[ids_voters.sex] == sexes.f)
       ages_stats[vote[ids_voters.age]]['f'] += 1;
@@ -370,6 +414,7 @@ function get_category_by_type(type) {
     }
   }
 }
+
 
 
 function calc_orgs_stats(category) {
@@ -523,16 +568,14 @@ function redraw_page() {
   //calc_orgs_normalized_stats();
 
   draw_chart();
+  fill_audience();
 }
 
 function get_ages_data() {
-  const population_segezha = 22000;
-  const population_russia = 144820422;
-  const k = population_segezha / population_russia;
   const ages_data = {'males': [], 'females': []};
   for (age in ru) {
-    ages_data.males.push(Math.round(ru[age].males * k));
-    ages_data.females.push(Math.round(ru[age].females * k));
+    ages_data.males.push(Math.round(ru[age].males * k_sr));
+    ages_data.females.push(Math.round(ru[age].females * k_sr));
   }
   return ages_data;
 }
