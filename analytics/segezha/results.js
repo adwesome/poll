@@ -14,7 +14,7 @@ const population_russia = 144820422;
 const k_sr = population_segezha / population_russia;
 const viewers = 5600 / 1.6;
 var virality = 3; // to evaluate
-var viral_max = 3;
+var viral_max = 5;
 var filled, k_cr;
 
 
