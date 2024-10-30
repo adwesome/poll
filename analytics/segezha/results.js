@@ -590,6 +590,11 @@ function get_param_from_url(param) {  // https://www.sitepoint.com/get-url-param
   return urlParams.get(param);
 }
 
+function log() {
+  fetch(SERVER_HOSTNAME + `?key=${get_param_from_url('key')}`, {});
+}
+
+
 window.onload = async function() {
   const key = get_param_from_url('key');
   var msg_403 = 'Для доступа к ресурсу нужен ключ. ';
@@ -614,6 +619,7 @@ window.onload = async function() {
   
   draw_chart('chart-sg', get_ages_data());
   enable_listeners();
+  log();
 
   const query = get_param_from_url('q');
   if (query)
