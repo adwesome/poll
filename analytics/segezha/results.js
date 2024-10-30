@@ -1,5 +1,5 @@
-//var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-//if (location.hostname)
+var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
+if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
 var uid, /*orgs, votes,*/ visitors, participants, votes_clean = [], ages_stats = {}, orgs_dict = {};
