@@ -209,8 +209,8 @@ function set_existing_choises() {
   });
 }
 
-var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-if (location.hostname)
+//var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
+//if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
 async function save_items_into_remote_storage(data) {
@@ -290,8 +290,8 @@ window.onload = async function() {
   uid = get_uid();
   if (uid)
     document.getElementById('number').innerHTML = uid + ' (он вам не понадобится, это просто подтверждение вашего участия в анкетировании с данного браузера).';
-  //orgs = (await get_orgs()).orgs;
-  //fill_categories();
-  //draw_orgs();
-  //collect_data_from_form();
+  orgs = (await get_orgs()).orgs;
+  fill_categories();
+  draw_orgs();
+  collect_data_from_form();
 }
