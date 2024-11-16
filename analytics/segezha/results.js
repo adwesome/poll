@@ -555,6 +555,12 @@ function collect_setup() {
   setup["selected_ages"] = selected_ages;
 }
 
+async function get_smth(smth) {
+  const response = await fetch(SERVER_HOSTNAME + `/${smth}/all`, {});
+  const o = await response.json();
+  return o;
+}
+
 function redraw_page() {
   collect_setup();
   //votes = (await get_smth('votes')).votes.slice(0, 900);
