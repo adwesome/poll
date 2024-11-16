@@ -209,8 +209,8 @@ function set_existing_choises() {
   });
 }
 
-//var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-//if (location.hostname)
+var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
+if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
 async function save_items_into_remote_storage(data) {
