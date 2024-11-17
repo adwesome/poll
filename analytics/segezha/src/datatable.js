@@ -10,21 +10,21 @@ function apply_datatable(element_id) {
       infoFiltered:   "(из _MAX_ - общего числа записей)",
     },
     paging: false,
-    autoWidth: true,
+    autoWidth: false,
     order: [[5, 'desc']],
     responsive: true,
     columns: [
-      { width: 'auto'},
+      { width: 'auto' },
       { width: 'auto', className: 'all' }, // https://datatables.net/extensions/responsive/examples/column-control/classes.html
-      { width: 'auto'},
-      { width: 'auto'},
-      { width: '200px'}, // address
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
-      { width: '100px'},
+      { width: 'auto', className: 'tablet-l' },
+      { width: 'auto', className: 'tablet-l' },
+      { width: '200px', className: 'tablet-l' }, // address
+      { width: '100px', className: 'all' },
+      { width: '100px', className: 'all' },
+      { width: '100px', className: 'tablet-l' },
+      { width: '100px', className: 'tablet-l' },
+      { width: '100px', className: 'tablet-l' },
+      { width: '100px', className: 'tablet-l' },
     ],
     columnDefs: [
       {
@@ -32,7 +32,7 @@ function apply_datatable(element_id) {
         visible: false,
         searchable: false
       },
-    ]
+    ],
     /*
     columnDefs: [
       { type: 'html-num-fmt', targets: 4 }, { type: 'num', targets: 5 },

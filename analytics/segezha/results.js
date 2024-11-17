@@ -625,9 +625,10 @@ window.onload = async function() {
   
   draw_chart('chart-sg', get_ages_data());
   enable_listeners();
-  log();
-
+  
   const query = get_param_from_url('q');
   if (query)
     table.search(query).draw();
+
+  log();
 }
