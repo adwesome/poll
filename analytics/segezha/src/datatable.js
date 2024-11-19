@@ -16,15 +16,15 @@ function apply_datatable(element_id) {
     columns: [
       { width: 'auto' },
       { width: 'auto', className: 'all' }, // https://datatables.net/extensions/responsive/examples/column-control/classes.html
-      { width: 'auto', className: 'tablet-l' },
-      { width: 'auto', className: 'tablet-l' },
-      { width: '200px', className: 'tablet-l' }, // address
+      { width: 'auto', className: 'desktop' },
+      { width: 'auto', className: 'desktop' },
+      { width: '200px', className: 'desktop' }, // address
       { width: '100px', className: 'all' },
       { width: '100px', className: 'all' },
-      { width: '100px', className: 'tablet-l' },
-      { width: '100px', className: 'tablet-l' },
-      { width: '100px', className: 'tablet-l' },
-      { width: '100px', className: 'tablet-l' },
+      { width: '100px', className: 'desktop' },
+      { width: '100px', className: 'desktop' },
+      { width: '100px', className: 'desktop' },
+      { width: '100px', className: 'desktop' },
     ],
     columnDefs: [
       {
