@@ -35,11 +35,11 @@ const a = [
   '2RImVByD',//mk
   '3JrdNoOG',//vsl
   '4ynB1E2A',//galan
-  '5QcimI2E',
-  '6XsrX7k5',
-  '7TBDqDie',
-  '8kZdDx0X',
-  '9D1Mj07D',
+  '5QcimI2E',//dns
+  '6XsrX7k5',//ulr
+  '7TBDqDie',//uvlrp
+  '8kZdDx0X',//lnt
+  '9D1Mj07D',//ugvos
   '10FR5qq',
   '11IPyos',
   '12nlQut',
