@@ -300,9 +300,11 @@ function filter_by_search_input() {
     const oid = fd[i][0];
     for (let j = 0; j < votes_clean.length; j++) {
       const vote = votes_clean[j];
-      if (vote[ids_voters.orgs].split(',').includes(oid) && !pushed_votes.includes(vote[0])) {
-        votes_extra_clean.push(vote);
-        pushed_votes.push(vote[0]);
+      if (vote[ids_voters.orgs]) {
+        if (vote[ids_voters.orgs].split(',').includes(oid) && !pushed_votes.includes(vote[0])) {
+          votes_extra_clean.push(vote);
+          pushed_votes.push(vote[0]);
+        }
       }
     }
   }
