@@ -427,17 +427,19 @@ function calc_orgs_stats(category) {
   orgs.forEach((org) => {
     const oid = org[0];
     votes_clean_fixed.forEach((vote) => {
-      const oids = vote[ids_voters.orgs].split(',');
-      if (oids.includes(oid.toString())) {
-        if (oid in orgs_stats)
-          orgs_stats[oid]['total'] += 1;
-        else
-          orgs_stats[oid] = {'total': 1, 'f': 0, 'm': 0};
+      if (vote[ids_voters.orgs]) {
+        const oids = vote[ids_voters.orgs].split(',');
+        if (oids.includes(oid.toString())) {
+          if (oid in orgs_stats)
+            orgs_stats[oid]['total'] += 1;
+          else
+            orgs_stats[oid] = {'total': 1, 'f': 0, 'm': 0};
 
-        if (vote[ids_voters.sex] == sexes.f)
-          orgs_stats[oid]['f'] += 1;
-        else
-          orgs_stats[oid]['m'] += 1;
+          if (vote[ids_voters.sex] == sexes.f)
+            orgs_stats[oid]['f'] += 1;
+          else
+            orgs_stats[oid]['m'] += 1;
+        }
       }
     });
   });
