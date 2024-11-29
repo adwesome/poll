@@ -241,11 +241,11 @@ function filter_by_data_clarity() {
   const votes_extra_clean = [];
   votes.forEach((vote) => {
     if (setup.clarity == 'all') {
-      if (vote[ids_voters.orgs] != '')
+      if (vote[ids_voters.orgs] != '' && vote[ids_voters.age] != -1 && vote[ids_voters.sex] != -1)
         votes_extra_clean.push(vote);
     }
     else {
-      if (vote[ids_voters.orgs] != '' && !bad_voters.includes(vote[0]))
+      if (vote[ids_voters.orgs] != '' && !bad_voters.includes(vote[0]) && vote[ids_voters.age] != -1 && vote[ids_voters.sex] != -1)
         votes_extra_clean.push(vote);
     }
   });
@@ -385,6 +385,7 @@ function calc_ages(votes) {
     ages_stats[key] = {'total': 0, 'f': 0, 'm': 0};
 
   votes.forEach((vote) => {
+    //console.log(vote[ids_voters.age])
     ages_stats[vote[ids_voters.age]]['total'] += 1;
     if (vote[ids_voters.sex] == sexes.f)
       ages_stats[vote[ids_voters.age]]['f'] += 1;
@@ -620,6 +621,8 @@ window.onload = async function() {
     return;
   }
 
+  orgs = (await get_smth('orgs')).orgs;
+  votes = (await get_smth('votes')).votes;
   orgs_to_dict();
   apply_datatable('results');
   
