@@ -51,7 +51,7 @@ const ru = {
   '70-79 лет': {'males': 3718328, 'females': 7203090},
 };
 
-const ids_voters = {'sex': 5, 'age': 6, 'orgs': 8};
+const ids_voters = {'sex': 5, 'age': 6, 'orgs': 8, 'date': 2, 'tguid': 7};
 
 const bad_voters = [247, 267, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 139, 109, 105, 184, 61, 257, 110, 196, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 18, 245, 106, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288, 338,335,341,334,317,336,313,330,88,120,217,324,339,352,11,49,308,314,347];
 // m: 43, 264, 115, 128, f: 78, 72, 
@@ -239,7 +239,12 @@ function calc_voters() {
 
 function filter_by_data_clarity() {
   const votes_extra_clean = [];
-  votes.forEach((vote) => {
+  for (let i = 0; i < votes.length; i++) {
+    vote = votes[i];
+
+    if (vote[ids_voters.tguid] == -1)  // only tg users
+      continue;
+
     if (setup.clarity == 'all') {
       if (vote[ids_voters.orgs] != '' && vote[ids_voters.age] != -1 && vote[ids_voters.sex] != -1)
         votes_extra_clean.push(vote);
@@ -248,7 +253,7 @@ function filter_by_data_clarity() {
       if (vote[ids_voters.orgs] != '' && !bad_voters.includes(vote[0]) && vote[ids_voters.age] != -1 && vote[ids_voters.sex] != -1)
         votes_extra_clean.push(vote);
     }
-  });
+  }
   votes_clean = votes_extra_clean;
 }
 
