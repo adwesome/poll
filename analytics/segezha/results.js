@@ -51,7 +51,7 @@ const ru = {
   '70-79 лет': {'males': 3718328, 'females': 7203090},
 };
 
-const ids_voters = {'sex': 5, 'age': 6, 'orgs': 8, 'date': 2, 'tguid': 7};
+const ids_voters = {'sex': 5, 'age': 4, 'orgs': 11, 'date': 2, 'tguid': 3};
 
 const bad_voters = [247, 267, 240, 219, 218, 130, 19, 246, 39, 24, 274, 217, 207, 209, 157, 142, 139, 109, 105, 184, 61, 257, 110, 196, 120, 214, 94, 108, 91, 13, 205, 123, 226, 189, 192, 260, 286, 233, 243, 265, 179, 87, 228, 60, 18, 245, 106, 54, 64, 154, 152, 153, 178, 182, 103, 104, 288, 338,335,341,334,317,336,313,330,88,120,217,324,339,352,11,49,308,314,347];
 // m: 43, 264, 115, 128, f: 78, 72, 
@@ -497,7 +497,7 @@ function fill_categories() {
 
 function orgs_to_dict() {
   orgs.forEach((org) => {
-    const o = {'name': org[1], 'type': org[2], 'address': org[3]};
+    const o = {'name': org[3], 'type': org[4], 'address': org[11]};
     orgs_dict[org[0]] = o;
   });
 }
